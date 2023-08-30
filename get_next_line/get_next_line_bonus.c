@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pedanton <pedanton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/19 18:32:39 by pedanton          #+#    #+#             */
-/*   Updated: 2023/08/29 18:08:39 by pedanton         ###   ########.fr       */
+/*   Created: 2023/08/30 18:29:10 by pedanton          #+#    #+#             */
+/*   Updated: 2023/08/30 18:45:51 by pedanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_buffer_accumulator(int fd, char *static_buf)
 {
@@ -82,26 +82,15 @@ char	*ft_get_remaining_buffer(char *static_buf)
 
 char	*get_next_line(int fd)
 {
-	static char	*static_buffer;
+	static char	*static_buffer[1024];
 	char		*current_line;
 
 	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
-	static_buffer = ft_buffer_accumulator(fd, static_buffer);
-	if (static_buffer == NULL)
+	static_buffer[fd] = ft_buffer_accumulator(fd, static_buffer[fd]);
+	if (static_buffer[fd] == NULL)
 		return (NULL);
-	current_line = ft_get_current_line(static_buffer);
-	static_buffer = ft_get_remaining_buffer(static_buffer);
+	current_line = ft_get_current_line(static_buffer[fd]);
+	static_buffer[fd] = ft_get_remaining_buffer(static_buffer[fd]);
 	return (current_line);
 }
-
-// #include <fcntl.h>
-
-// int	main()
-// {
-// 	int	fd;
-
-// 	fd = open("pedro.txt", O_RDONLY);
-// 	get_next_line(fd);
-// 	close(fd);
-// }

@@ -6,7 +6,7 @@
 /*   By: pedanton <pedanton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 18:36:19 by pedanton          #+#    #+#             */
-/*   Updated: 2023/08/29 17:10:26 by pedanton         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:53:44 by pedanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,21 @@
 
 char	*ft_strchr(const char *s, int c)
 {
-	while (*s != '\0' && *s != (char)c)
+	if (s == NULL)
+		return (NULL);
+	while (*s != '\0' && *s != (unsigned char)c)
 		s++;
-	if (*s == (char)c)
+	if (*s == (unsigned char)c)
 		return ((char *)s);
-	return (NULL);
+	return (0);
 }
 
 size_t	ft_strlen(const char *s)
 {
 	size_t	i;
 
+	if (s == NULL)
+		return (0);
 	i = 0;
 	while (s[i] != 0)
 	{
@@ -59,6 +63,8 @@ char	*ft_strdup(const char *src)
 	int		i;
 	int		k;
 
+	if (src == NULL)
+		return (NULL);
 	i = 0;
 	while (src[i])
 	{
@@ -81,16 +87,15 @@ char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*new_string;
 	int		i;
-	int		j;
 	int		k;
 
-	i = ft_strlen(s1);
-	j = ft_strlen(s2);
-	new_string = malloc(sizeof(char) * (i + j + 1));
+	if (s1 == NULL && s2 == NULL)
+		return (NULL);
+	new_string = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (new_string == NULL)
 		return (NULL);
 	i = 0;
-	while (s1[i] != '\0')
+	while (s1 != NULL && s1[i] != '\0')
 	{
 		new_string[i] = s1[i];
 		i++;
